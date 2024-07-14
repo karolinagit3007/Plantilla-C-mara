@@ -9,24 +9,23 @@ export default function RegistroScreen({ navigation }: any) {
     const [contrasenia, setContrasenia] = useState('')
 
     function registro() {
-
         createUserWithEmailAndPassword(auth, correo, contrasenia)
             .then((userCredential) => {
-                // Signed up 
                 const user = userCredential.user;
-                console.log(user)
-                navigation.navigate("Login")
-                // ...
+                console.log(user);
+                navigation.navigate("Login");
+                limpiarCampos();
             })
             .catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
                 console.log(errorCode);
-
-
-                // ..
             });
+    }
 
+    function limpiarCampos() {
+        setCorreo('');
+        setContrasenia('');
     }
 
     return (
@@ -34,16 +33,20 @@ export default function RegistroScreen({ navigation }: any) {
             <Text style={{ fontSize: 30 }}>REGISTRO</Text>
 
             <TextInput
+                style={styles.input}
                 placeholder='Ingresa tu correo electrónico'
+                value={correo}
                 onChangeText={(texto) => (setCorreo(texto))}
                 keyboardType='email-address'
             />
             <TextInput
+                style={styles.input}
                 placeholder='Ingresa contraseña'
+                value={contrasenia}
                 onChangeText={(texto) => (setContrasenia(texto))}
             />
 
-            <Button title='Ingresar' onPress={() => registro()} />
+            <Button title='Registrar' onPress={registro} />
         </View>
     )
 }
@@ -51,8 +54,17 @@ export default function RegistroScreen({ navigation }: any) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#F1E9DB',
         alignItems: 'center',
         justifyContent: 'center',
     },
-})
+    input: {
+        width: '80%',
+        padding: 15,
+        marginVertical: 10,
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 12,
+        backgroundColor: '#fff',
+    },
+});
